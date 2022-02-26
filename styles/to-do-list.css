@@ -60,30 +60,32 @@ body {
         border: none;
         padding: 0%;
         border-radius: inherit;
+        box-sizing: border-box;
       }
 
       .table-inputs:hover {
         border-color: rgb(102, 172, 175);
         border-style: solid;
-        border-width: 3px;
-      }
-
-      .btnAddTask {
-        display: block;
-        margin: auto;
-        font-weight: 600;
-        font-size: inherit;
-        color: white;
-        border: none;
-        border-radius: 25px;
-        background-color: rgb(102, 172, 175);
-        padding: 10px;
-      }
-      
-      .btnAddTask:hover {
-        border-style: solid;
         border-width: 2px;
       }
+
+  .btnAddTask {
+    display: block;
+    margin: auto;
+    font-weight: 600;
+    font-size: inherit;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    background-color: rgb(102, 172, 175);
+    padding: 10px;
+    box-sizing: border-box;
+  }
+      
+  .btnAddTask:hover {
+    border-style: solid;
+    border-width: 2px;
+  }
 
   .table-container {
     margin: auto;
@@ -101,17 +103,17 @@ body {
       padding: 0%;
     }
 
-    #to-do {
+    .to-do {
       font-weight: 700;
       background-color: rgb(23, 131, 125);
     }
-    #to-do:hover {
+    .to-do:hover {
       background-color: rgb(26, 144, 138);
     }
-    #done {
+    .done {
       background-color: rgb(76, 139, 76);
     }
-    #done:hover {
+    .done:hover {
       background-color: rgb(85, 151, 85);
     }
 

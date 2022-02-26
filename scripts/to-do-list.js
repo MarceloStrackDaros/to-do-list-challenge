@@ -1,30 +1,25 @@
-class Task {
-  constructor(name, id, date) {
-    this.name = name
-    this.id = id
-    this.date = date
-    this.statusText = 'A fazer'
-    this.statusID = 'to-do'
-  }
-}
-
-let btnAddTask = document.querySelector('#addTask')
-let btnDeleteTask = document.querySelector('#deleteTask')
+const btnAddTask = document.querySelector('#addTask')
+const btnDeleteTask = document.querySelector('#deleteTask')
 let taskList = localStorage.getItem('tasks')
 
 if (taskList != null) {
   taskList = JSON.parse(taskList)
   let tableContent = ''
   taskList.forEach((task) => {
+    if (task.status === 'A fazer') {
+      statusClassName = 'td-status to-do'
+    } else if (task.status === 'Feito') {
+      statusClassName = 'td-status done'
+    }
     tableContent += `
     <tr class='table-content'>
     <td class='td-name' id='${task.id}'>${task.name}</td>
-    <td class='td-status' id='${task.statusID}'>${task.statusText}</td>
+    <td class='${statusClassName}'>${task.status}</td>
     <td class='td-date'>${task.date}</td>
     <td class='td-deletion'><button id='deleteTask'>Deletar</button></td>
     </tr>`
   })
-  let tableBody = document.querySelector('.table-body')
+  const tableBody = document.querySelector('.table-body')
   tableBody.innerHTML = tableContent
   tableBody.querySelectorAll('tr').forEach((tableRow) => {
     addEvListeners(tableRow.querySelector('.td-name'),
@@ -37,16 +32,21 @@ if (taskList != null) {
 }
 
 btnAddTask.addEventListener('click', () => {
-  let task = document.querySelector('#task')
-  let date = document.querySelector('#date')
+  const task = document.querySelector('#task')
+  const date = document.querySelector('#date')
   addTask(task, date)
 })
 
 function addTask(task, date) {
-  let taskID = taskList.length
-  let newTask = new Task(task.value, taskID, date.value)
-  let tableBody = document.querySelector('.table-body')
-  let tableRow = createTaskRow(newTask)
+  const taskID = taskList.length
+  const newTask = {
+    name: task.value,
+    id: taskID,
+    date: date.value,
+    status: 'A fazer',
+  }
+  const tableBody = document.querySelector('.table-body')
+  const tableRow = createTaskRow(newTask)
 
   if (taskList.length == 0) {
     setTimeout(() => {
@@ -62,35 +62,34 @@ function addTask(task, date) {
 }
 
 function createTaskRow(task) {
-  let tableRow = document.createElement('tr')
+  const tableRow = document.createElement('tr')
   tableRow.className = 'table-content'
 
-  let tableDataText = document.createElement('td')
+  const tableDataText = document.createElement('td')
   tableDataText.className = 'td-name'
   tableDataText.id = task.id
-  let taskText = document.createTextNode(task.name)
+  const taskText = document.createTextNode(task.name)
   tableDataText.appendChild(taskText)
 
-  let tableDataStatus = document.createElement('td')
-  tableDataStatus.className = 'td-status'
-  let taskStatus = document.createTextNode(task.statusText)
-  tableDataStatus.appendChild(taskStatus)
-  if (task.statusText == 'A fazer') {
-    tableDataStatus.id = 'to-do'
-  } else if (task.statusText == 'Feito') {
-    tableDataStatus.id = 'done'
+  const tableDataStatus = document.createElement('td')
+  if (task.status === 'A fazer') {
+    tableDataStatus.className = 'td-status to-do'
+  } else if (task.status === 'Feito') {
+    tableDataStatus.className = 'td-status done'
   }
+  const taskStatus = document.createTextNode(task.status)
+  tableDataStatus.appendChild(taskStatus)
 
-  let tableDate = document.createElement('td')
+  const tableDate = document.createElement('td')
   tableDate.className = 'td-date'
-  let taskDate = document.createTextNode(task.date)
+  const taskDate = document.createTextNode(task.date)
   tableDate.appendChild(taskDate)
 
-  let tableDataDelete = document.createElement('td')
+  const tableDataDelete = document.createElement('td')
   tableDataDelete.className = 'td-deletion'
-  let deleteButton = document.createElement('button')
+  const deleteButton = document.createElement('button')
   deleteButton.id = 'deleteTask'
-  let deleteText = document.createTextNode('Deletar')
+  const deleteText = document.createTextNode('Deletar')
   deleteButton.appendChild(deleteText)
   tableDataDelete.appendChild(deleteButton)
 
@@ -116,27 +115,25 @@ function addEvListeners(taskDescription, taskStatus, deleteBtn, tableRow) {
 }
 
 function changeStatus(tableRow) {
-  let taskStatus = tableRow.querySelector('.td-status')
-  let taskPos = tableRow.querySelector('.td-name').id
+  const taskStatus = tableRow.querySelector('.td-status')
+  const taskPos = tableRow.querySelector('.td-name').id
 
-  if (taskStatus.id === 'to-do') {
-    taskList[taskPos].statusText = 'Feito'
-    taskList[taskPos].statusID = 'done'
+  if (taskStatus.textContent === 'A fazer') {
+    taskList[taskPos].status = 'Feito'
     taskStatus.textContent = 'Feito'
-    taskStatus.id = 'done'
+    taskStatus.className = 'td-status done'
 
-  } else if (taskStatus.id === 'done') {
-    taskList[taskPos].statusText = 'A fazer'
-    taskList[taskPos].statusID = 'to-do'
+  } else if (taskStatus.textContent === 'Feito') {
+    taskList[taskPos].status = 'A fazer'
     taskStatus.textContent = 'A fazer'
-    taskStatus.id = 'to-do'
+    taskStatus.className = 'td-status to-do'
   }
   localStorage.setItem('tasks', JSON.stringify(taskList))
 }
 
 function deleteTask(task) {
-  let tableBody = document.querySelector('.table-body')
-  let removedTaskId = parseInt(task.querySelector('.td-name').id)
+  const tableBody = document.querySelector('.table-body')
+  const removedTaskId = parseInt(task.querySelector('.td-name').id)
   taskList.splice(removedTaskId, 1)
   rowsList = tableBody.querySelectorAll('tr')
 
