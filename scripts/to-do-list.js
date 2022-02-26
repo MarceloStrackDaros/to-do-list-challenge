@@ -16,7 +16,7 @@ if (taskList != null) {
     <td class='td-name' id='${task.id}'>${task.name}</td>
     <td class='${statusClassName}'>${task.status}</td>
     <td class='td-date'>${task.date}</td>
-    <td class='td-deletion'><button id='deleteTask'>Deletar</button></td>
+    <td class='td-deletion'><button class='btnDeleteTask' id='deleteTask'>Deletar</button></td>
     </tr>`
   })
   const tableBody = document.querySelector('.table-body')
@@ -88,6 +88,7 @@ function createTaskRow(task) {
   const tableDataDelete = document.createElement('td')
   tableDataDelete.className = 'td-deletion'
   const deleteButton = document.createElement('button')
+  deleteButton.className = 'btnDeleteTask'
   deleteButton.id = 'deleteTask'
   const deleteText = document.createTextNode('Deletar')
   deleteButton.appendChild(deleteText)

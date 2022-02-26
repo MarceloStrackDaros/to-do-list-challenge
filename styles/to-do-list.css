@@ -128,14 +128,14 @@ body {
       background-color: rgb(63, 111, 114);
     }
 
-  #deleteTask {
+  .btnDeleteTask {
     font-size: 0.9em;
     color: white;
     border: none;
     border-radius: 25px;
     background-color: rgb(102, 172, 175);
   }
-  #deleteTask:hover {
+  .btnDeleteTask:hover {
     background-color: rgb(133, 2, 2);
     border: 1px solid white;
   }
@@ -166,7 +166,7 @@ body {
   .th-date {
     min-width: 150px;
   }
-  #deleteTask {
+  .btnDeleteTask {
     min-width: 60px;
   }
 }
